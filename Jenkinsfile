@@ -4,7 +4,7 @@ pipeline{
   }
     tools{
       jdk 'java21'
-      maven 'maven3'
+      git 'git'
     }
     stages{
       stage("cleaning workspace"){
