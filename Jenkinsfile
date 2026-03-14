@@ -69,5 +69,9 @@ pipeline{
               echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
               docker build -t "${docker_user}/${app_name}:${$build_number}" .
               docker push "${docker_user}/${app_name}:${build_number}"
-    }
-}
+              }
+              }
+              }
+              }
+              }
+              }
