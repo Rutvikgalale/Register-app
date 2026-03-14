@@ -6,6 +6,14 @@ pipeline{
       jdk 'java21'
       maven 'maven3'
     }
+    environment{
+      app_name = "Register-app"
+      docker_user = "rutvikg"
+      docker_pass = "docker"
+      image_name = "${docker_user}/${app_name}"
+      image_tag = "${image_name}-${build_number}"
+    }
+  
     stages{
       stage("cleaning workspace"){
         steps{
@@ -53,5 +61,13 @@ pipeline{
           }
         }
       }
+      stage("docker build & push"){
+        steps{
+          script{
+            withCredentials([usernamePassword(credentialsId: "docker", username: "docker_user", password: "docker_pass")]){
+              sh """
+              echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+              docker build -t "${docker_user}/${app_name}:${$build_number}" .
+              docker push "${docker_user}/${app_name}:${build_number}"
     }
 }
