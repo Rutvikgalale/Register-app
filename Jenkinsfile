@@ -35,7 +35,7 @@ pipeline{
                 def scannerHome = tool 'sonar' //// 'sonar' must match the name in  manage jenkins -> tool configuraion
                 sh "${scannerHome}/bin/sonar-scanner \
                 -Dsonar.projectKey=Register-app \
-                -Dsonar.sources=src \
+                -Dsonar.sources=webapp/src \
                 -Dsonar.host.url=http://172.31.47.102:9000 \
                 -Dsonar.login=$sonar_token"
               }
