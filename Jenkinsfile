@@ -49,7 +49,7 @@ pipeline{
       stage("code quality gate"){
         steps{
           timeout(time: 5, unit: 'MINUTES') { // Jenkins will wait up to 5 minutes for SonarQube to send back the analysis
-            waitForQualityGate abortPipeline: false
+            waitForQualityGate abortPipeline: true
           }
         }
       }
