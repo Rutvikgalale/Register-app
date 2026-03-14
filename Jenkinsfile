@@ -36,6 +36,7 @@ pipeline{
                 -Dsonar.sources=src \
                 -Dsonar.host.url=http://172.31.47.102:9000 \
                 -Dsonar.login=$sonar_token'
+            }
           }
         }
       }
