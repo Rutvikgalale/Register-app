@@ -5,6 +5,7 @@ pipeline{
     tools{
       jdk 'java21'
       maven 'maven3'
+      sonarQubeScanner 'sonar'
     }
     stages{
       stage("cleaning workspace"){
