@@ -7,7 +7,7 @@ pipeline{
       maven 'maven3'
     }
     environment{
-      app_name = "Register-app"
+      app_name = "register-app"
       docker_user = "rutvikg"
       image_name = "${docker_user}/${app_name}"
       image_tag = "${image_name}:${BUILD_NUMBER}"
