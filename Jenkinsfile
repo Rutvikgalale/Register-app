@@ -84,5 +84,12 @@ pipeline{
           }
         }
       }
+      stage("cleaning artifacts"){
+        steps{
+          script{
+            sh "docker rmi ${image_name}:${BUILD_NUMBER}"
+          }
+        }
+      }
     }
 }
