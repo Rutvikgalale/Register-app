@@ -33,12 +33,14 @@ pipeline{
             withCredentials([string(credentialsId: 'sonar-token', variable: 'sonar_token')]) {
               script{
                 def scannerHome = tool 'sonar' //// 'sonar' must match the name in  manage jenkins -> tool configuraion
-                sh "${scannerHome}/bin/sonar-scanner \
+                sh """
+                ${scannerHome}/bin/sonar-scanner \
                 -Dsonar.projectKey=Register-app \
                 -Dsonar.sources=. \
-                -Dsonar.java.binaries=target/classes
+                -Dsonar.java.binaries=target/classes \
                 -Dsonar.host.url=http://172.31.47.102:9000 \
-                -Dsonar.login=$sonar_token"
+                -Dsonar.login=$sonar_token
+                """
               }
             }
           }
