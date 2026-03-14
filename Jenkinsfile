@@ -65,8 +65,8 @@ pipeline{
           script{
             withCredentials([usernamePassword(credentialsId: "docker", usernameVariable: "docker_user", passwordVariable: "docker_pass")]){
               sh """
-              echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-              docker build -t "${docker_user}/${app_name}:${$BUILD_NUMBER}" .
+              echo $docker_pass | docker login -u $docker_user --password-stdin
+              docker build -t "${docker_user}/${app_name}:${BUILD_NUMBER}" .
               docker push "${docker_user}/${app_name}:${BUILD_NUMBER}"
               """
             }
