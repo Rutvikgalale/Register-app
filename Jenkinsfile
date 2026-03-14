@@ -31,12 +31,14 @@ pipeline{
         steps{
           withSonarQubeEnv('sonar'){ // 'sonar' is the name you configured in Manage Jenkins → System
             withCredentials([string(credentialsId: 'sonar-token', variable: 'sonar_token')]) {
-              def scannerHome = tool 'sonar' //// 'sonar' must match the name in  manage jenkins -> tool configuraion
-              sh "${scannerHome}/bin/sonar-scanner \
+              script{
+                def scannerHome = tool 'sonar' //// 'sonar' must match the name in  manage jenkins -> tool configuraion
+                sh "${scannerHome}/bin/sonar-scanner \
                 -Dsonar.projectKey=Register-app \
                 -Dsonar.sources=src \
                 -Dsonar.host.url=http://172.31.47.102:9000 \
                 -Dsonar.login=$sonar_token"
+              }
             }
           }
         }
