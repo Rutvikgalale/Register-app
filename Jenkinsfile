@@ -40,14 +40,14 @@ pipeline{
             withCredentials([string(credentialsId: 'sonar-token', variable: 'sonar_token')]) {
               script{
                 def scannerHome = tool 'sonar' //// 'sonar' must match the name in  manage jenkins -> tool configuraion
-                sh """
+                sh '''
                 ${scannerHome}/bin/sonar-scanner \
                 -Dsonar.projectKey=Register-app \
                 -Dsonar.sources=. \
                 -Dsonar.java.binaries=server/target/classes,webapp/target/webapp/WEB-INF/classes \
                 -Dsonar.host.url=http://172.31.47.102:9000 \
                 -Dsonar.login=$sonar_token
-                """
+                '''
               }
             }
           }
@@ -64,11 +64,11 @@ pipeline{
         steps{
           script{
             withCredentials([usernamePassword(credentialsId: "docker", usernameVariable: "docker_user", passwordVariable: "docker_pass")]){
-              sh """
+              sh '''
               echo $docker_pass | docker login -u $docker_user --password-stdin
               docker build -t "${docker_user}/${app_name}:${BUILD_NUMBER}" .
               docker push "${docker_user}/${app_name}:${BUILD_NUMBER}"
-              """
+              '''
             }
           }
         }
