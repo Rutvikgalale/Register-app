@@ -16,5 +16,7 @@ spec:
     spec:
       containers:
         - name: Register-app
-          image: rutvikg/
+          image: rutvikg/register-app:39
           imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
