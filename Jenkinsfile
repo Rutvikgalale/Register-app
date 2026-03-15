@@ -11,7 +11,7 @@ pipeline{
       docker_user = "rutvikg"
       image_name = "${docker_user}/${app_name}"
       image_tag = "${image_name}:${BUILD_NUMBER}"
-      JENKINS_API_TOKEN = credentials("JENKINS_API_TOKEN")
+      jenkins_api_token = credentials("jenkins_api_token")
     }
   
     stages{
@@ -95,7 +95,7 @@ pipeline{
       stage("trigger cd pipeline"){
         steps{
           script{
-            sh "curl -v -k --user clouduser:${JENKINS_API_TOKEN} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'IMAGE_TAG=${IMAGE_TAG}' 'ec2-13-201-62-90.ap-south-1.compute.amazonaws.com:8080/job/sregister-app-cd/buildWithParameters?token=gitops-token'"
+            sh "curl -v -k --user clouduser:${jenkins_api_token} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'image_tag=${image_tag}' 'ec2-13-201-62-90.ap-south-1.compute.amazonaws.com:8080/job/sregister-app-cd/buildWithParameters?token=cd-token'"
           }
         }
       }
