@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: Register-app-deployment
+  labels:
+    app: Register-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: Register-app
+  template:
+    metadata:
+      labels:
+        app: Register-app
+    spec:
+      containers:
+        - name: Register-app
+          image: rutvikg/
+          imagePullPolicy: Always
