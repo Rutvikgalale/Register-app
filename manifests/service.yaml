@@ -9,5 +9,5 @@ spec:
   selector:
     app: register-app
   ports:
-    - Port: 8080
+    - port: 8080
       targetPort: 8080
