@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: Register-app-Service
+  name: register-app-service
   labels:
-    app: Register-app
+    app: register-app
 spec:
   type: LoadBalancer
   selector:
-    app: Register-app
+    app: register-app
   ports:
     - Port: 8080
       targetPort: 8080
