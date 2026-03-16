@@ -97,12 +97,13 @@ pipeline{
       stage("update deployment tags"){
         steps{
           sh """
+            sed -i "s|image:.*|image: ${image_name}:${image_tag}|g" /home/ubuntu/workspace/register-app/manifests/deployment.yaml
             cat /home/ubuntu/workspace/register-app/manifests/deployment.yaml
-            sed -i 's/register-app.*/register-app:47/g' /home/ubuntu/workspace/register-app/manifests/deployment.yaml
-            cat /home/ubuntu/workspace/register-app/manifests/deployment.yaml
+            git add /home/ubuntu/workspace/register-app/manifests/deployment.yaml
           """
         }
       }
+
       stage("pushing deployment file to Git"){
         steps{
           sh """
