@@ -99,5 +99,12 @@ pipeline{
           }
         }
       }
+      stage("update deployment tags"){
+        steps{
+          sh """
+            cat manifests/deployment.yaml
+          """
+        }
+      }
     }
 }
