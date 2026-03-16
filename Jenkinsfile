@@ -103,6 +103,19 @@ pipeline{
           """
         }
       }
+      stage("pushing deployment file to Git"){
+        steps{
+          sh """
+          git config --global user.name "Rutvikgalale"
+          git config --global user.email "rutvikgalale16@gmail.com"
+          git add /home/ubuntu/workspace/register-app/manifests/deployment.yaml
+          git commit -m "deployment manifest updated"
+          """
+          withCredentials([gitusernamePassword(credentialsId: 'github', gitToolName: 'default')]){
+            sh "git push https://github.com/Rutvikgalale/Register-app main"
+          }
+        }
+      }
     }
     post{
       always{
