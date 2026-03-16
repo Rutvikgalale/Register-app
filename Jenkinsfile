@@ -98,6 +98,8 @@ pipeline{
         steps{
           sh """
             cat /home/ubuntu/workspace/register-app/manifests/deployment.yaml
+            sed -i 's/register-app.*/register-app:47/g' /home/ubuntu/workspace/register-app/manifests/deployment.yaml
+            cat /home/ubuntu/workspace/register-app/manifests/deployment.yaml
           """
         }
       }
