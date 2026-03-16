@@ -78,13 +78,6 @@ pipeline{
           }
         }
       }
-      stage("trivy cleanup"){
-        steps{
-          sh """
-            trivy clean --all
-          """
-        }
-      }
 
       stage("trivy scanning"){
         steps{
@@ -93,6 +86,7 @@ pipeline{
           }
         }
       }
+
       stage("cleaning artifacts"){
         steps{
           script{
@@ -111,6 +105,13 @@ pipeline{
         steps{
           sh """
             cat manifests/deployment.yaml
+          """
+        }
+      }
+      stage("trivy cleanup"){
+        steps{
+          sh """
+            trivy clean --all
           """
         }
       }
