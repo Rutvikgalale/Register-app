@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: register-app-47
+  name: register-app:47
   labels:
-    app: register-app-47
+    app: register-app:47
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: register-app-47
+      app: register-app:47
   template:
     metadata:
       labels:
-        app: register-app-47
+        app: register-app:47
     spec:
       containers:
-        - name: register-app-47
-          image: rutvikg/register-app-47
+        - name: register-app:47
+          image: rutvikg/register-app:47
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
