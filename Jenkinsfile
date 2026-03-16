@@ -102,4 +102,12 @@ pipeline{
         }
       }
     }
+    post{
+      always{
+        sh """
+          trivy clean --all || true
+          docker system prune -af || true
+        """
+      }
+    }
 }
