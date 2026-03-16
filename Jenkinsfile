@@ -111,8 +111,10 @@ pipeline{
           git add /home/ubuntu/workspace/register-app/manifests/deployment.yaml
           git commit -m "deployment manifest updated"
           """
-          withCredentials([gitusernamePassword(credentialsId: 'github', gitToolName: 'default')]){
-            sh "git push https://github.com/Rutvikgalale/Register-app main"
+          withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+            sh """
+              git push https://${GIT_USER}:${GIT_PASS}@github.com/Rutvikgalale/Register-app main
+            """
           }
         }
       }
