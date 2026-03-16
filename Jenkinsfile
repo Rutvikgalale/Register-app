@@ -90,7 +90,7 @@ pipeline{
       stage("trigger cd pipeline"){
         steps{
           script{
-            sh "curl -v -k --user admin:${jenkins_api_token} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'image_tag=${image_tag}' 'http://ec2-13-201-62-90.ap-south-1.compute.amazonaws.com:8080/job/sregister-app-cd/buildWithParameters?token=cd-token'"
+            sh "curl -v -k --user admin:${jenkins_api_token} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'image_tag=${image_tag}' 'http://ec2-13-201-62-90.ap-south-1.compute.amazonaws.com:8080/job/register-app-cd/buildWithParameters?token=cd-token'"
           }
         }
       }
