@@ -78,6 +78,14 @@ pipeline{
           }
         }
       }
+      stage("trivy cleanup"){
+        steps{
+          sh """
+            trivy clean --all
+          """
+        }
+      }
+
       stage("trivy scanning"){
         steps{
           script{
