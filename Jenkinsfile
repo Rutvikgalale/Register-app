@@ -10,7 +10,7 @@ pipeline{
       app_name = "register-app"
       docker_user = "rutvikg"
       image_name = "${docker_user}/${app_name}"
-      image_tag = "${image_name}:${BUILD_NUMBER}"
+      image_tag = "${BUILD_NUMBER}"
       jenkins_api_token = credentials("jenkins_api_token")
     }
   
@@ -71,8 +71,8 @@ pipeline{
             withCredentials([usernamePassword(credentialsId: "docker", usernameVariable: "docker_user", passwordVariable: "docker_pass")]){
               sh """
               echo $docker_pass | docker login -u $docker_user --password-stdin
-              docker build -t "${docker_user}/${app_name}:${BUILD_NUMBER}" .
-              docker push "${docker_user}/${app_name}:${BUILD_NUMBER}"
+              docker build -t "${image_name}:${image_tag}" .
+              docker push "${image_name}:${image_tag}"
               """
             }
           }
@@ -82,38 +82,31 @@ pipeline{
       stage("trivy scanning"){
         steps{
           script{
-            sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image rutvikg/register-app:${BUILD_NUMBER} --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table')
+            sh ('docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image ${image_name}:${image_tag} --no-progress --scanners vuln  --exit-code 0 --severity HIGH,CRITICAL --format table')
           }
         }
       }
 
-      stage("cleaning artifacts"){
-        steps{
-          script{
-            sh "docker rmi ${image_name}:${BUILD_NUMBER}"
-          }
-        }
-      }
       stage("trigger cd pipeline"){
         steps{
           script{
-            sh "curl -v -k --user admin:${jenkins_api_token} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'image_tag=${image_tag}' 'ec2-13-201-62-90.ap-south-1.compute.amazonaws.com:8080/job/sregister-app-cd/buildWithParameters?token=cd-token'"
+            sh "curl -v -k --user admin:${jenkins_api_token} -X POST -H 'cache-control: no-cache' -H 'content-type: application/x-www-form-urlencoded' --data 'image_tag=${image_tag}' 'http://ec2-13-201-62-90.ap-south-1.compute.amazonaws.com:8080/job/sregister-app-cd/buildWithParameters?token=cd-token'"
           }
         }
       }
       stage("update deployment tags"){
         steps{
           sh """
-            cat manifests/deployment.yaml
+            cat /home/ubuntu/workspace/register-app/manifests/deployment.yaml
           """
         }
       }
-      stage("trivy cleanup"){
-        steps{
+      post{
+        always{
           sh """
-            trivy clean --all
-          """
+            trivy clean --all || true
+            docker system prune -af || true
         }
-      }
+      } 
     }
 }
